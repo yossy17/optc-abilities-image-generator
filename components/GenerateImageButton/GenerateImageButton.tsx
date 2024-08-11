@@ -23,7 +23,11 @@ export default function GenerateImageButton({
       if (!response.ok) throw new Error(await response.text());
 
       const data = await response.json();
-      setImageUrl(data.imageUrl);
+      if (data.imageUrl) {
+        setImageUrl(data.imageUrl);
+      } else {
+        alert("画像生成に失敗しました");
+      }
     } catch (error) {
       console.error("Error generating image:", error);
       alert(`画像の生成中にエラーが発生しました: ${(error as Error).message}`);

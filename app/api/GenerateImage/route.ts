@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { createCanvas } from "canvas";
 import { SelectedEffect, SkillType } from "@/components/types";
+import { writeFile, mkdir, unlink } from "fs/promises";
+import path from "path";
 
 export async function POST(request: Request) {
   try {
@@ -12,12 +14,9 @@ export async function POST(request: Request) {
     console.log("Received skillType:", skillType);
     console.log("Received effects:", effects);
 
-    // フォントサイズと行間の設定
     const fontSize = 16;
     const lineHeight = 1.5;
     const canvasPadding = 20;
-
-    // 高さを自動調整するための計算
     const canvasWidth = 500;
     const textHeight = fontSize * lineHeight * (effects.length + 1);
     const canvasHeight = canvasPadding * 2 + textHeight;
@@ -25,17 +24,14 @@ export async function POST(request: Request) {
     const canvas = createCanvas(canvasWidth, canvasHeight);
     const ctx = canvas.getContext("2d");
 
-    // 背景色の設定
     ctx.fillStyle = "#f0f0f0";
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    ctx.fillRect(0, canvasPadding, canvasWidth, textHeight);
 
-    // フォントの設定
-    ctx.font = `${fontSize}px 'Noto Sans JP', sans-serif`; // Noto Sans JPを指定
+    ctx.font = `${fontSize}px 'Noto Sans JP', sans-serif`;
     ctx.textAlign = "left";
     ctx.textBaseline = "top";
     ctx.fillStyle = "#000000";
 
-    // テキストの描画
     ctx.fillText(`${skillType}:`, canvasPadding, canvasPadding);
 
     effects.forEach((item: SelectedEffect, index: number) => {
@@ -52,10 +48,31 @@ export async function POST(request: Request) {
       );
     });
 
-    const imageData = canvas.toDataURL("image/png");
+    const imagesDir = path.join(process.cwd(), "public", "images");
+
+    // ディレクトリが存在しない場合に作成
+    await mkdir(imagesDir, { recursive: true });
+
+    const imagePath = path.join(imagesDir, `image_${Date.now()}.png`);
+    await writeFile(imagePath, canvas.toBuffer());
+
+    const imageUrl = `/images/${path.basename(imagePath)}`;
     console.log("Image generated successfully");
 
-    return NextResponse.json({ imageUrl: imageData });
+    // 5分後に画像を削除するタスクを設定
+    setTimeout(
+      async () => {
+        try {
+          await unlink(imagePath);
+          console.log("Image deleted successfully");
+        } catch (err) {
+          console.error("Error deleting image:", err);
+        }
+      },
+      5 * 60 * 1000
+    ); // 5分後
+
+    return NextResponse.json({ imageUrl });
   } catch (error) {
     console.error("Detailed error in GenerateImage:", error);
     return NextResponse.json(

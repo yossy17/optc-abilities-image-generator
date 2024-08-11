@@ -120,41 +120,12 @@
     }
   }
 
-  // .generateImage {
-  //   display: flex;
-  //   align-items: center;
-  //   justify-content: center;
-  //   flex-flow: column;
-
-  //   .createImage {
-  //     width: 120px;
-  //     padding: 10px 20px;
-  //     border: none;
-  //     border-radius: 3px;
-  //     cursor: pointer;
-  //     background-color: #6666ff;
-  //     font-size: 1.1em;
-  //     transition: background-color 0.3s;
-
-  //     &:hover {
-  //       background-color: #3333ff;
-  //     }
-  //   }
-
-  //   .resultImage {
-  //     display: inline-block;
-  //   }
-  // }
-
   .generateImage {
-    // display: inline-block;
-    // text-align: center;
-    // width: 100%;
-    // margin: 20px auto 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-flow: column;
+    flex-direction: column;
+    margin-top: 20px;
   }
 
   .createImage {
