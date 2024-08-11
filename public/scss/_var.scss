@@ -1,21 +1,21 @@
 //color
-$primary: #eec968;
-$secondary: #c29523;
-$tertiary: #ecdcb2;
+$primary: #f6f3e8;
+$secondary: #404040;
 
-$primaryfc: #111;
+$red: #fa8072;
+$green: #90ee90;
+$blue: #87cefa;
+$yellow: #ffd700;
+$purple: #da70d6;
 
-$primarybg: #fcfcfc;
-$secondarybg: #f7f7f7;
-$tertiarybg: #f2f2f2;
-
-// $primarylink: #???;
-
-$gray: #aaa;
-$gray-blue: #e2e8f0;
+$red-hover: darken($red, 10%);
+$green-hover: darken($green, 10%);
+$blue-hover: darken($blue, 10%);
+$yellow-hover: darken($yellow, 10%);
+$purple-hover: darken($purple, 10%);
 
 body {
-  background: $primarybg;
+  background: $secondary;
 }
 
 h1,
@@ -24,8 +24,14 @@ h3,
 h4,
 h5,
 h6,
-p {
-  color: $primaryfc;
+p,
+span {
+  color: $primary;
+}
+
+button,
+option {
+  color: $secondary;
 }
 
 // a {
@@ -36,11 +42,11 @@ p {
 
 // breakpoint
 $breakpoints: (
-  'sm': 'screen and (min-width: 640px)',
-  'md': 'screen and (min-width: 768px)',
-  'lg': 'screen and (min-width: 1024px)',
-  'xl': 'screen and (min-width: 1280px)',
-  'xxl': 'screen and (min-width: 1536px)',
+  "sm": "screen and (min-width: 640px)",
+  "md": "screen and (min-width: 768px)",
+  "lg": "screen and (min-width: 1024px)",
+  "xl": "screen and (min-width: 1280px)",
+  "xxl": "screen and (min-width: 1536px)",
 ) !default;
 @mixin mq($breakpoint) {
   @media #{map-get($breakpoints, $breakpoint)} {

@@ -121,44 +121,46 @@ export default function EffectSelector({
   };
 
   return (
-    <div className="effectSelector">
-      <select
-        value={category}
-        onChange={handleCategoryChange}
-        className="effectSelectorBox"
-      >
-        {Object.keys(EffectCategories[skillType]).map((cat) => (
-          <option key={cat} value={cat}>
-            {cat}
-          </option>
-        ))}
-      </select>
-      <select
-        value={subCategory}
-        onChange={handleSubCategoryChange}
-        className="effectSelectorBox"
-      >
-        {Object.keys(EffectCategories[skillType][category] || {}).map(
-          (subCat) => (
-            <option key={subCat} value={subCat}>
-              {subCat}
+    <div className="effectBox">
+      <div className="effectSelectorBox">
+        <select
+          value={category}
+          onChange={handleCategoryChange}
+          className="effectSelector"
+        >
+          {Object.keys(EffectCategories[skillType]).map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
             </option>
-          )
-        )}
-      </select>
-      <select
-        value={effect}
-        onChange={handleEffectChange}
-        className="effectSelectorBox"
-      >
-        {(EffectCategories[skillType][category]?.[subCategory] || []).map(
-          (eff) => (
-            <option key={eff.name} value={eff.name}>
-              {eff.name}
-            </option>
-          )
-        )}
-      </select>
+          ))}
+        </select>
+        <select
+          value={subCategory}
+          onChange={handleSubCategoryChange}
+          className="effectSelector"
+        >
+          {Object.keys(EffectCategories[skillType][category] || {}).map(
+            (subCat) => (
+              <option key={subCat} value={subCat}>
+                {subCat}
+              </option>
+            )
+          )}
+        </select>
+        <select
+          value={effect}
+          onChange={handleEffectChange}
+          className="effectSelector"
+        >
+          {(EffectCategories[skillType][category]?.[subCategory] || []).map(
+            (eff) => (
+              <option key={eff.name} value={eff.name}>
+                {eff.name}
+              </option>
+            )
+          )}
+        </select>
+      </div>
       {turns !== undefined && (
         <div className="turnsSelector">
           <input
@@ -172,7 +174,7 @@ export default function EffectSelector({
         </div>
       )}
       <button onClick={removeEffect} className="removeEffect">
-        削除
+        Del
       </button>
     </div>
   );

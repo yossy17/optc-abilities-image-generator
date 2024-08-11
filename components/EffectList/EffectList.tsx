@@ -99,19 +99,22 @@ export default function EffectList({
   );
 
   return (
-    <div className="effectList">
-      {selectedEffects.map((selectedEffect, index) => (
-        <EffectSelector
-          key={index}
-          skillType={skillType}
-          selectedEffect={selectedEffect}
-          updateEffect={(updatedEffect) => updateEffect(index, updatedEffect)}
-          removeEffect={() => removeEffect(index)}
-        />
-      ))}
+    <>
+      {" "}
       <button onClick={addEffect} className="addEffect">
-        効果を追加
+        Add Effect
       </button>
-    </div>
+      <div className="effectList">
+        {selectedEffects.map((selectedEffect, index) => (
+          <EffectSelector
+            key={index}
+            skillType={skillType}
+            selectedEffect={selectedEffect}
+            updateEffect={(updatedEffect) => updateEffect(index, updatedEffect)}
+            removeEffect={() => removeEffect(index)}
+          />
+        ))}
+      </div>
+    </>
   );
 }

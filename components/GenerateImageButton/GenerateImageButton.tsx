@@ -1,13 +1,19 @@
+// GenerateImageButton.tsx
 import { useState } from "react";
 import { GenerateImageButtonProps } from "@/components/types";
+import Link from "next/link";
+import TitleInput from "@/components/TitleInput/TitleInput";
 
 export default function GenerateImageButton({
-  skillType,
   selectedEffects,
 }: GenerateImageButtonProps) {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [title, setTitle] = useState<string>("");
 
   const generateImage = async () => {
+    const finalTitle =
+      title.trim() === "" ? "OPTC Abilities Image Generator" : title;
+
     if (selectedEffects.length === 0) {
       alert("効果を追加してください");
       return;
@@ -17,17 +23,25 @@ export default function GenerateImageButton({
       const response = await fetch("/api/GenerateImage", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ skillType, effects: selectedEffects }),
+        body: JSON.stringify({ title: finalTitle, effects: selectedEffects }),
       });
 
       if (!response.ok) throw new Error(await response.text());
 
       const data = await response.json();
-      if (data.imageUrl) {
-        setImageUrl(data.imageUrl);
-      } else {
-        alert("画像生成に失敗しました");
+
+      // Base64データをBlobに変換
+      const byteCharacters = atob(data.imageData.split(",")[1]);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
       }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: "image/png" });
+
+      // BlobからURLを生成
+      const url = URL.createObjectURL(blob);
+      setImageUrl(url);
     } catch (error) {
       console.error("Error generating image:", error);
       alert(`画像の生成中にエラーが発生しました: ${(error as Error).message}`);
@@ -36,14 +50,15 @@ export default function GenerateImageButton({
 
   return (
     <div className="generateImage">
+      <TitleInput title={title} onTitleChange={setTitle} />
       <button onClick={generateImage} className="createImage">
-        画像生成
+        Create
       </button>
       {imageUrl && (
         <div className="resultLink">
-          <a href={imageUrl} target="_blank" rel="noopener noreferrer">
-            生成された画像を表示
-          </a>
+          <Link href={imageUrl} target="_blank" rel="noopener noreferrer">
+            View image
+          </Link>
         </div>
       )}
     </div>

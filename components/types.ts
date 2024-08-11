@@ -57,3 +57,9 @@ export interface GenerateImageButtonProps {
   skillType: SkillType;
   selectedEffects: SelectedEffect[];
 }
+
+export interface Effect {
+  name: string;
+  hasTurns: boolean;
+  imageUrl?: string; // 画像URLを追加
+}

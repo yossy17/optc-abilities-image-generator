@@ -37,7 +37,7 @@ export const EffectCategories: { [key in SkillType]: EffectCategory } = {
   Captain: {
     hage: {
       hoge: [
-        { name: "攻撃力", hasTurns: true },
+        { name: "攻撃力", hasTurns: false },
         { name: "基礎攻撃力", hasTurns: true },
         { name: "クリティカル発生率強化", hasTurns: true },
         { name: "クリティカル威力強化", hasTurns: true },

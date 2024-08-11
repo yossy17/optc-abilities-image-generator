@@ -13,7 +13,7 @@ export default function Home() {
 
   const handleSkillTypeChange = (newSkillType: SkillType) => {
     setSkillType(newSkillType);
-    setSelectedEffects([]); // Reset selected effects when skill type changes
+    setSelectedEffects([]);
   };
 
   return (
