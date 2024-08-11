@@ -45,9 +45,13 @@
     }
 
     .effectList {
+      margin-inline: 10px;
       display: grid;
       gap: 2rem 0.5rem;
-      grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+      grid-template-columns: repeat(
+        auto-fit,
+        minmax(clamp(16.875rem, 14.83rem + 10.23vw, 22.5rem), 1fr)
+      );
       margin-block: 20px;
 
       .effectBox {

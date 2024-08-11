@@ -1,7 +1,13 @@
-// app/api/GenerateImage/route.ts
 import { NextResponse } from "next/server";
-import { createCanvas } from "canvas";
+import { createCanvas, registerFont } from "canvas";
 import { SelectedEffect } from "@/components/types";
+import path from "path";
+
+// フォントの登録
+registerFont(
+  path.join(process.cwd(), "public", "Fonts", "NotoSansJP-Regular.ttf"),
+  { family: "NotoSansJP-Regular" }
+);
 
 export async function POST(request: Request) {
   try {
@@ -11,22 +17,20 @@ export async function POST(request: Request) {
     const titleFontSize = 16;
     const effectFontSize = 12;
     const canvasPadding = 30;
-    const maxTitleWidth = 400; // 最大幅を設定
+    const maxTitleWidth = 400;
 
-    // 仮のキャンバスを作成してタイトルの長さを測定
     const tempCanvas = createCanvas(1, 1);
     const tempCtx = tempCanvas.getContext("2d");
-    tempCtx.font = `bold ${titleFontSize}px 'Noto Sans JP', sans-serif`;
+    tempCtx.font = `${titleFontSize}px 'NotoSansJP-Regular', sans-serif`;
 
-    // タイトルが複数行になる場合のための幅と高さの計算
-    const lines = title.split("\n"); // 改行で分割
+    const lines = title.split("\n");
     let titleWidth = 0;
     let titleHeight = 0;
 
     lines.forEach((line) => {
       const lineWidth = tempCtx.measureText(line).width;
       titleWidth = Math.max(titleWidth, lineWidth);
-      titleHeight += titleFontSize * 1.5; // 行間を含む
+      titleHeight += titleFontSize * 1.5;
     });
 
     const canvasWidth = Math.max(titleWidth + canvasPadding * 2, maxTitleWidth);
@@ -37,7 +41,6 @@ export async function POST(request: Request) {
     const canvas = createCanvas(canvasWidth, canvasHeight);
     const ctx = canvas.getContext("2d");
 
-    // コンテキスト取得の確認
     if (!ctx) {
       throw new Error("Failed to get canvas context");
     }
@@ -55,7 +58,7 @@ export async function POST(request: Request) {
     ctx.strokeRect(10, 10, canvasWidth - 20, canvasHeight - 20);
 
     // タイトルの描画
-    ctx.font = `bold ${titleFontSize}px 'Noto Sans JP', sans-serif`;
+    ctx.font = `${titleFontSize}px 'NotoSansJP-Regular', sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
     ctx.fillStyle = "#333333";
@@ -63,11 +66,11 @@ export async function POST(request: Request) {
     let titleY = canvasPadding;
     lines.forEach((line) => {
       ctx.fillText(line, canvasWidth / 2, titleY);
-      titleY += titleFontSize * 1.5; // 行間を含む
+      titleY += titleFontSize * 1.5;
     });
 
     // 効果の描画
-    ctx.font = `${effectFontSize}px 'Noto Sans JP', sans-serif`;
+    ctx.font = `${effectFontSize}px 'NotoSansJP-Regular', sans-serif`;
     ctx.textAlign = "left";
     ctx.textBaseline = "top";
     ctx.fillStyle = "#555555";
@@ -78,7 +81,6 @@ export async function POST(request: Request) {
         effectText +=
           item.turns === "完全解除" ? " (完全解除)" : ` (${item.turns}ターン)`;
       }
-      console.log(`Drawing: ${effectText}`);
       ctx.fillText(
         effectText,
         canvasPadding + 10,
@@ -86,7 +88,6 @@ export async function POST(request: Request) {
       );
     });
 
-    // 画像データをBase64エンコードした文字列として取得
     const imageData = canvas.toDataURL("image/png");
     console.log("Image generated successfully");
 
