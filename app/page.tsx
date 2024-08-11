@@ -6,7 +6,7 @@ import SkillImageGenerator from "@/components/SkillImageGenerator";
 import { SkillType, SelectedEffect } from "@/components/types";
 
 export default function Home() {
-  const [skillType, setSkillType] = useState<SkillType>("必殺技");
+  const [skillType, setSkillType] = useState<SkillType>("Special");
   const [selectedEffects, setSelectedEffects] = useState<SelectedEffect[]>([]);
 
   const handleSkillTypeChange = (newSkillType: SkillType) => {
@@ -16,7 +16,7 @@ export default function Home() {
 
   return (
     <main className="container">
-      <h1>スキル画像ジェネレーター</h1>
+      <h1>OPTC Abilities Image Generator</h1>
       <SkillImageGenerator
         skillType={skillType}
         selectedEffects={selectedEffects}

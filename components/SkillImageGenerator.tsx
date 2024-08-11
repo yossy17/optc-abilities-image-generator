@@ -1,7 +1,7 @@
 // components/SkillImageGenerator.tsx
-import SkillTypeSelector from "@/components/SkillTypeSelector";
-import EffectList from "@/components/EffectList";
-import GenerateImageButton from "@/components/GenerateImageButton";
+import SkillTypeSelector from "@/components/SkillTypeSelector/SkillTypeSelector";
+import EffectList from "@/components/EffectList/EffectList";
+import GenerateImageButton from "@/components/GenerateImageButton/GenerateImageButton";
 import { SkillType, SelectedEffect } from "@/components/types";
 
 interface SkillImageGeneratorProps {

@@ -1,11 +1,12 @@
 // components/EffectList.tsx
-import { useState, useEffect } from "react";
-import EffectSelector from "@/components/EffectSelector";
+import { useEffect } from "react";
+import EffectSelector from "@/components/EffectSelector/EffectSelector";
 import {
   SkillType,
   SelectedEffect,
   EffectCategories,
 } from "@/components/types";
+import { PixelMplus10Regular } from "@/public/Fonts/Fonts"; // フォントをインポート
 
 interface EffectListProps {
   skillType: SkillType;
@@ -23,16 +24,24 @@ export default function EffectList({
       const categories = Object.keys(EffectCategories[skillType]);
       if (categories.length > 0) {
         const firstCategory = categories[0];
-        const effects = EffectCategories[skillType][firstCategory];
-        if (effects.length > 0) {
-          const firstEffect = effects[0];
-          onEffectsChange([
-            {
-              category: firstCategory,
-              effect: firstEffect.name,
-              turns: firstEffect.hasTurns ? 1 : undefined,
-            },
-          ]);
+        const subCategories = Object.keys(
+          EffectCategories[skillType][firstCategory]
+        );
+        if (subCategories.length > 0) {
+          const firstSubCategory = subCategories[0];
+          const effects =
+            EffectCategories[skillType][firstCategory][firstSubCategory];
+          if (effects.length > 0) {
+            const firstEffect = effects[0];
+            onEffectsChange([
+              {
+                category: firstCategory,
+                subCategory: firstSubCategory,
+                effect: firstEffect.name,
+                turns: firstEffect.hasTurns ? 1 : undefined,
+              },
+            ]);
+          }
         }
       }
     }
@@ -43,7 +52,14 @@ export default function EffectList({
     if (categories.length === 0) return;
 
     const firstCategory = categories[0];
-    const effects = EffectCategories[skillType][firstCategory];
+    const subCategories = Object.keys(
+      EffectCategories[skillType][firstCategory]
+    );
+    if (subCategories.length === 0) return;
+
+    const firstSubCategory = subCategories[0];
+    const effects =
+      EffectCategories[skillType][firstCategory][firstSubCategory];
     if (effects.length === 0) return;
 
     const firstEffect = effects[0];
@@ -51,6 +67,7 @@ export default function EffectList({
       ...selectedEffects,
       {
         category: firstCategory,
+        subCategory: firstSubCategory,
         effect: firstEffect.name,
         turns: firstEffect.hasTurns ? 1 : undefined,
       },
@@ -69,7 +86,9 @@ export default function EffectList({
   };
 
   return (
-    <div className="effect-list">
+    <div className={`effect-list ${PixelMplus10Regular.className}`}>
+      {" "}
+      {/* フォントクラスを追加 */}
       {selectedEffects.map((selectedEffect, index) => (
         <EffectSelector
           key={index}

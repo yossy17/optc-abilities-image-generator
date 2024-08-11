@@ -1,7 +1,8 @@
-// components/GenerateImageButton.tsx
+// components\GenerateImageButton\GenerateImageButton.tsx
 import { useState } from "react";
 import Image from "next/image";
 import { SkillType, SelectedEffect } from "@/components/types";
+import { PixelMplus10Regular } from "@/public/Fonts/Fonts"; // フォントをインポート
 
 interface GenerateImageButtonProps {
   skillType: SkillType;
@@ -36,7 +37,9 @@ export default function GenerateImageButton({
   };
 
   return (
-    <div>
+    <div className={`${PixelMplus10Regular.className}`}>
+      {" "}
+      {/* フォントクラスを適用 */}
       <button onClick={generateImage} className="generate-image">
         画像生成
       </button>

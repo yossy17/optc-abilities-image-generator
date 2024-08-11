@@ -1,13 +1,11 @@
-// app/api/generate-image/route.ts
 import { NextResponse } from "next/server";
-import { createCanvas } from "canvas"; // registerFont を削除
-import path from "path";
+import { createCanvas } from "canvas";
 
-// 必要な型定義をインポートまたはインラインで定義
-type SkillType = "必殺技" | "船長効果";
+type SkillType = "Special" | "Captain";
 
 interface SelectedEffect {
   category: string;
+  subCategory: string;
   effect: string;
   turns?: number;
 }
@@ -28,11 +26,13 @@ export async function POST(request: Request) {
     ctx.fillStyle = "#f0f0f0";
     ctx.fillRect(0, 0, 300, 200);
 
-    ctx.font = "16px sans-serif"; // フォント指定をデフォルトに変更
+    // デフォルトフォントの設定
+    ctx.font = "16px sans-serif"; // デフォルトのフォントを指定
     ctx.fillStyle = "#000000";
     ctx.fillText(`${skillType}:`, 10, 30);
+
     effects.forEach((item: SelectedEffect, index: number) => {
-      let effectText = `• ${item.effect}`;
+      let effectText = `• ${item.effect}`; // 最後のネストの効果名のみを表示
       if (item.turns !== undefined) {
         effectText += ` (${item.turns}ターン)`;
       }

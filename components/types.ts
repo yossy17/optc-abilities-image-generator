@@ -1,8 +1,9 @@
-// components/types.ts
-export type SkillType = "必殺技" | "船長効果";
+// components\types.ts
+export type SkillType = "Special" | "Captain";
 
 export interface SelectedEffect {
   category: string;
+  subCategory: string;
   effect: string;
   turns?: number;
 }
@@ -12,29 +13,56 @@ export interface EffectDetails {
   hasTurns: boolean;
 }
 
-export interface EffectCategory {
+export interface SubCategory {
   [key: string]: EffectDetails[];
 }
 
+export interface EffectCategory {
+  [key: string]: SubCategory;
+}
+
 export const EffectCategories: { [key in SkillType]: EffectCategory } = {
-  必殺技: {
-    攻撃: [
-      { name: "火炎放射", hasTurns: false },
-      { name: "氷の矢", hasTurns: true },
-    ],
-    防御: [
-      { name: "盾", hasTurns: true },
-      { name: "反射", hasTurns: true },
-    ],
+  Special: {
+    エンハンス: {
+      攻撃系: [
+        { name: "攻撃力", hasTurns: true },
+        { name: "基礎攻撃力", hasTurns: true },
+        { name: "クリティカル発生率強化", hasTurns: true },
+        { name: "クリティカル威力強化", hasTurns: true },
+      ],
+      チェイン系: [
+        { name: "チェイン加算", hasTurns: true },
+        { name: "チェイン固定", hasTurns: true },
+        { name: "チェイン初期値", hasTurns: true },
+        { name: "チェイン増加", hasTurns: true },
+        { name: "チェイン増加量変換", hasTurns: true },
+      ],
+      ダメージ強化系: [
+        { name: "ダメージ量(防御ダウン)", hasTurns: true },
+        { name: "ダメージ量(遅延)", hasTurns: true },
+        { name: "ダメージ量(毒)", hasTurns: true },
+        { name: "ダメージ量(被ダメ増)", hasTurns: true },
+        { name: "ダメージ量(熱傷)", hasTurns: true },
+        { name: "ダメージ量(痺れ)", hasTurns: true },
+        { name: "ダメージ量(強敵)", hasTurns: true },
+        { name: "ダメージ量(ネガティブ)", hasTurns: true },
+      ],
+      その他: [
+        { name: "スロット影響", hasTurns: true },
+        { name: "属性相性", hasTurns: true },
+        { name: "超化影響値変更", hasTurns: true },
+        { name: "最終攻撃キャラ強化", hasTurns: true },
+      ],
+    },
   },
-  船長効果: {
-    速度: [
-      { name: "速さUP", hasTurns: true },
-      { name: "減速", hasTurns: false },
-    ],
-    耐久: [
-      { name: "耐久UP", hasTurns: true },
-      { name: "HP回復", hasTurns: false },
-    ],
+  Captain: {
+    hage: {
+      hoge: [
+        { name: "攻撃力", hasTurns: true },
+        { name: "基礎攻撃力", hasTurns: true },
+        { name: "クリティカル発生率強化", hasTurns: true },
+        { name: "クリティカル威力強化", hasTurns: true },
+      ],
+    },
   },
 };

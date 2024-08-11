@@ -1,8 +1,7 @@
+// app\layout.tsx
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { PixelMplus10Regular } from "@/public/Fonts/Fonts";
 import "@/public/Styles/globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "スキル画像ジェネレーター",
@@ -16,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <body className={inter.className}>{children}</body>
+      <body className={`${PixelMplus10Regular.className}`}>{children}</body>
     </html>
   );
 }
