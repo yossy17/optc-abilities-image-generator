@@ -1,0 +1,230 @@
+@use "./reset";
+
+// Variables
+$primary-color: #007bff;
+$success-color: #28a745;
+$danger-color: #dc3545;
+$light-gray: #f0f0f0;
+$border-color: #ddd;
+$border-radius: 5px;
+$spacing-small: 10px;
+$spacing-medium: 15px;
+$spacing-large: 20px;
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: $spacing-large;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: $spacing-large;
+  text-align: center;
+}
+
+.skill-image-generator {
+  max-width: 500px;
+  margin: 0 auto;
+  font-family: "Noto Sans JP", sans-serif;
+
+  .skill-type-selector {
+    margin-bottom: $spacing-large;
+    text-align: center;
+
+    button {
+      padding: $spacing-small $spacing-large;
+      margin-right: $spacing-small;
+      background-color: $light-gray;
+      border: none;
+      border-radius: $border-radius;
+      cursor: pointer;
+      transition:
+        background-color 0.3s,
+        color 0.3s;
+      font-size: 16px;
+
+      &.active {
+        background-color: $primary-color;
+        color: white;
+      }
+
+      &:hover:not(.active) {
+        background-color: darken($light-gray, 10%);
+      }
+
+      &:focus {
+        outline: 2px solid $primary-color;
+        outline-offset: 2px;
+      }
+    }
+  }
+
+  .effect-list {
+    margin-bottom: $spacing-large;
+  }
+
+  .effect-selector {
+    margin-bottom: $spacing-medium;
+    padding: $spacing-medium;
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+    transition: box-shadow 0.3s;
+
+    &:hover {
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    select {
+      width: 100%;
+      padding: 8px 10px;
+      margin-bottom: $spacing-small;
+      border: 1px solid $border-color;
+      border-radius: $border-radius;
+      appearance: none;
+      background: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>")
+        no-repeat right 8px center;
+      background-size: 20px;
+      background-color: white;
+      padding-right: 30px;
+      font-size: 14px;
+
+      &:focus {
+        outline: 2px solid $primary-color;
+        outline-offset: -2px;
+      }
+
+      &:hover {
+        border-color: darken($border-color, 10%);
+      }
+    }
+
+    .turns-selector {
+      display: flex;
+      align-items: center;
+      margin-top: $spacing-small;
+
+      input[type="range"] {
+        flex-grow: 1;
+        margin-right: $spacing-small;
+        -webkit-appearance: none;
+        background: $light-gray;
+        outline: none;
+        border-radius: $border-radius;
+        height: 5px;
+
+        &::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 18px;
+          height: 18px;
+          background: $primary-color;
+          cursor: pointer;
+          border-radius: 50%;
+          border: 2px solid white;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        &::-moz-range-thumb {
+          width: 18px;
+          height: 18px;
+          background: $primary-color;
+          cursor: pointer;
+          border-radius: 50%;
+          border: 2px solid white;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        &:focus {
+          outline: none;
+          &::-webkit-slider-thumb {
+            box-shadow: 0 0 0 3px rgba($primary-color, 0.3);
+          }
+          &::-moz-range-thumb {
+            box-shadow: 0 0 0 3px rgba($primary-color, 0.3);
+          }
+        }
+      }
+
+      span {
+        font-size: 14px;
+        min-width: 70px;
+        text-align: right;
+      }
+    }
+
+    .remove-effect {
+      background-color: $danger-color;
+      color: white;
+      border: none;
+      padding: 5px $spacing-small;
+      border-radius: $border-radius;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-size: 14px;
+      margin-top: $spacing-small;
+
+      &:hover {
+        background-color: darken($danger-color, 10%);
+      }
+
+      &:focus {
+        outline: 2px solid darken($danger-color, 20%);
+        outline-offset: 2px;
+      }
+    }
+  }
+
+  .add-effect,
+  .generate-image {
+    display: block;
+    width: 100%;
+    color: white;
+    border: none;
+    padding: $spacing-small $spacing-large;
+    border-radius: $border-radius;
+    cursor: pointer;
+    margin-bottom: $spacing-large;
+    text-align: center;
+    transition: background-color 0.3s;
+    font-size: 16px;
+  }
+
+  .add-effect {
+    background-color: $success-color;
+
+    &:hover {
+      background-color: darken($success-color, 10%);
+    }
+
+    &:focus {
+      outline: 2px solid darken($success-color, 20%);
+      outline-offset: 2px;
+    }
+  }
+
+  .generate-image {
+    background-color: $primary-color;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+
+    &:focus {
+      outline: 2px solid darken($primary-color, 20%);
+      outline-offset: 2px;
+    }
+  }
+
+  .generated-image {
+    margin-top: $spacing-large;
+    text-align: center;
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: $border-radius;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+  }
+}
