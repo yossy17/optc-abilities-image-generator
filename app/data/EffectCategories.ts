@@ -1,3 +1,4 @@
+// app\data\EffectCategories.ts
 import { EffectCategory, SkillType } from "@/components/types";
 
 export const EffectCategories: { [key in SkillType]: EffectCategory } = {

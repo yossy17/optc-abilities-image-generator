@@ -161,21 +161,23 @@ export default function EffectSelector({
           )}
         </select>
       </div>
-      {turns !== undefined && (
-        <div className="turnsSelector">
-          <input
-            type="range"
-            min="1"
-            max="21"
-            value={turns === "完全解除" ? 21 : turns}
-            onChange={handleTurnsChange}
-          />
-          <span>{turns === "完全解除" ? "完全解除" : `${turns}ターン`}</span>
-        </div>
-      )}
-      <button onClick={removeEffect} className="removeEffect">
-        Del
-      </button>
+      <div className="effectBoxContainer">
+        {turns !== undefined && (
+          <div className="turnsSelector">
+            <input
+              type="range"
+              min="1"
+              max="21"
+              value={turns === "完全解除" ? 21 : turns}
+              onChange={handleTurnsChange}
+            />
+            <span>{turns === "完全解除" ? "完全解除" : `${turns}ターン`}</span>
+          </div>
+        )}
+        <button onClick={removeEffect} className="removeEffect">
+          Del
+        </button>
+      </div>
     </div>
   );
 }
