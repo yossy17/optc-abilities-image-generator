@@ -1,23 +1,17 @@
 // components\SkillTypeSelector\SkillTypeSelector.tsx
-import { SkillType } from "@/components/types";
-import { PixelMplus10Regular } from "@/public/Fonts/Fonts";
-
-interface SkillTypeSelectorProps {
-  currentSkillType: SkillType;
-  onSkillTypeChange: (skillType: SkillType) => void;
-}
+import { SkillType, SkillTypeSelectorProps } from "@/components/types";
 
 export default function SkillTypeSelector({
   currentSkillType,
   onSkillTypeChange,
 }: SkillTypeSelectorProps) {
   return (
-    <div className="skill-type-selector">
+    <div className="skillSelector">
       {["Special", "Captain"].map((type) => (
         <button
           key={type}
+          className={`skillSelectorButton ${currentSkillType === type ? "active" : ""}`}
           onClick={() => onSkillTypeChange(type as SkillType)}
-          className={`${PixelMplus10Regular.className}`}
         >
           {type}
         </button>

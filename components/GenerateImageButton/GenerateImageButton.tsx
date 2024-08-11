@@ -1,19 +1,11 @@
-// components\GenerateImageButton\GenerateImageButton.tsx
 import { useState } from "react";
-import Image from "next/image";
-import { SkillType, SelectedEffect } from "@/components/types";
-import { PixelMplus10Regular } from "@/public/Fonts/Fonts"; // フォントをインポート
-
-interface GenerateImageButtonProps {
-  skillType: SkillType;
-  selectedEffects: SelectedEffect[];
-}
+import { GenerateImageButtonProps } from "@/components/types";
 
 export default function GenerateImageButton({
   skillType,
   selectedEffects,
 }: GenerateImageButtonProps) {
-  const [imageUrl, setImageUrl] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   const generateImage = async () => {
     if (selectedEffects.length === 0) {
@@ -22,12 +14,14 @@ export default function GenerateImageButton({
     }
 
     try {
-      const response = await fetch("/api/generate-image", {
+      const response = await fetch("/api/GenerateImage", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ skillType, effects: selectedEffects }),
       });
+
       if (!response.ok) throw new Error(await response.text());
+
       const data = await response.json();
       setImageUrl(data.imageUrl);
     } catch (error) {
@@ -37,20 +31,15 @@ export default function GenerateImageButton({
   };
 
   return (
-    <div className={`${PixelMplus10Regular.className}`}>
-      {" "}
-      {/* フォントクラスを適用 */}
-      <button onClick={generateImage} className="generate-image">
+    <div className="generateImage">
+      <button onClick={generateImage} className="createImage">
         画像生成
       </button>
       {imageUrl && (
-        <div className="generated-image">
-          <Image
-            src={imageUrl}
-            alt="Generated Skill Image"
-            width={300}
-            height={200}
-          />
+        <div className="resultLink">
+          <a href={imageUrl} target="_blank" rel="noopener noreferrer">
+            生成された画像を表示
+          </a>
         </div>
       )}
     </div>

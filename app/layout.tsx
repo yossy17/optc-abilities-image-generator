@@ -1,10 +1,10 @@
 // app\layout.tsx
 import type { Metadata } from "next";
 import { PixelMplus10Regular } from "@/public/Fonts/Fonts";
-import "@/public/Styles/globals.css";
+import "@/public/Styles/app.css";
 
 export const metadata: Metadata = {
-  title: "スキル画像ジェネレーター",
+  title: "OPTC Abilities Image Generator",
   description: "ゲームのスキル性能を画像として生成するアプリケーション",
 };
 

@@ -2,7 +2,9 @@
 "use client";
 
 import { useState } from "react";
-import SkillImageGenerator from "@/components/SkillImageGenerator";
+import SkillTypeSelector from "@/components/SkillTypeSelector/SkillTypeSelector";
+import EffectList from "@/components/EffectList/EffectList";
+import GenerateImageButton from "@/components/GenerateImageButton/GenerateImageButton";
 import { SkillType, SelectedEffect } from "@/components/types";
 
 export default function Home() {
@@ -16,13 +18,22 @@ export default function Home() {
 
   return (
     <main className="container">
-      <h1>OPTC Abilities Image Generator</h1>
-      <SkillImageGenerator
-        skillType={skillType}
-        selectedEffects={selectedEffects}
-        onSkillTypeChange={handleSkillTypeChange}
-        onEffectsChange={setSelectedEffects}
-      />
+      <h1 className="title">OPTC Abilities Image Generator</h1>
+      <div className="abilitiesImageGenerator">
+        <SkillTypeSelector
+          currentSkillType={skillType}
+          onSkillTypeChange={handleSkillTypeChange}
+        />
+        <EffectList
+          skillType={skillType}
+          selectedEffects={selectedEffects}
+          onEffectsChange={setSelectedEffects}
+        />
+        <GenerateImageButton
+          skillType={skillType}
+          selectedEffects={selectedEffects}
+        />
+      </div>
     </main>
   );
 }

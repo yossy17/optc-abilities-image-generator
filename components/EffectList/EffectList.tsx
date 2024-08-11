@@ -1,53 +1,57 @@
-// components/EffectList.tsx
-import { useEffect } from "react";
+// components\EffectList\EffectList.tsx
+import { useEffect, useCallback } from "react";
 import EffectSelector from "@/components/EffectSelector/EffectSelector";
 import {
-  SkillType,
+  EffectListProps,
   SelectedEffect,
-  EffectCategories,
+  EffectDetails,
 } from "@/components/types";
-import { PixelMplus10Regular } from "@/public/Fonts/Fonts"; // フォントをインポート
-
-interface EffectListProps {
-  skillType: SkillType;
-  selectedEffects: SelectedEffect[];
-  onEffectsChange: (effects: SelectedEffect[]) => void;
-}
+import { EffectCategories } from "@/app/data/EffectCategories";
 
 export default function EffectList({
   skillType,
   selectedEffects,
   onEffectsChange,
 }: EffectListProps) {
-  useEffect(() => {
-    if (selectedEffects.length === 0) {
-      const categories = Object.keys(EffectCategories[skillType]);
-      if (categories.length > 0) {
-        const firstCategory = categories[0];
-        const subCategories = Object.keys(
-          EffectCategories[skillType][firstCategory]
-        );
-        if (subCategories.length > 0) {
-          const firstSubCategory = subCategories[0];
-          const effects =
-            EffectCategories[skillType][firstCategory][firstSubCategory];
-          if (effects.length > 0) {
-            const firstEffect = effects[0];
-            onEffectsChange([
-              {
-                category: firstCategory,
-                subCategory: firstSubCategory,
-                effect: firstEffect.name,
-                turns: firstEffect.hasTurns ? 1 : undefined,
-              },
-            ]);
-          }
+  // 初期設定のロジックをuseCallbackに移動
+  const initializeEffects = useCallback(() => {
+    const categories = Object.keys(EffectCategories[skillType]);
+    if (categories.length > 0) {
+      const firstCategory = categories[0];
+      const subCategories = Object.keys(
+        EffectCategories[skillType][firstCategory]
+      );
+      if (subCategories.length > 0) {
+        const firstSubCategory = subCategories[0];
+        const effects: EffectDetails[] =
+          EffectCategories[skillType][firstCategory][firstSubCategory];
+        if (effects.length > 0) {
+          const firstEffect = effects[0];
+          return [
+            {
+              category: firstCategory,
+              subCategory: firstSubCategory,
+              effect: firstEffect.name,
+              turns: firstEffect.hasTurns ? 1 : undefined,
+            },
+          ] as SelectedEffect[];
         }
       }
     }
-  }, [skillType, selectedEffects, onEffectsChange]);
+    return [] as SelectedEffect[];
+  }, [skillType]);
 
-  const addEffect = () => {
+  // useEffect内で初期化ロジックを使用
+  useEffect(() => {
+    if (selectedEffects.length === 0) {
+      const initialEffects = initializeEffects();
+      if (initialEffects.length > 0) {
+        onEffectsChange(initialEffects);
+      }
+    }
+  }, [selectedEffects.length, initializeEffects, onEffectsChange]);
+
+  const addEffect = useCallback(() => {
     const categories = Object.keys(EffectCategories[skillType]);
     if (categories.length === 0) return;
 
@@ -58,13 +62,13 @@ export default function EffectList({
     if (subCategories.length === 0) return;
 
     const firstSubCategory = subCategories[0];
-    const effects =
+    const effects: EffectDetails[] =
       EffectCategories[skillType][firstCategory][firstSubCategory];
     if (effects.length === 0) return;
 
     const firstEffect = effects[0];
-    onEffectsChange([
-      ...selectedEffects,
+    onEffectsChange((prevEffects) => [
+      ...prevEffects,
       {
         category: firstCategory,
         subCategory: firstSubCategory,
@@ -72,23 +76,30 @@ export default function EffectList({
         turns: firstEffect.hasTurns ? 1 : undefined,
       },
     ]);
-  };
+  }, [skillType, onEffectsChange]);
 
-  const removeEffect = (index: number) => {
-    const newEffects = selectedEffects.filter((_, i) => i !== index);
-    onEffectsChange(newEffects);
-  };
+  const removeEffect = useCallback(
+    (index: number) => {
+      onEffectsChange((prevEffects) =>
+        prevEffects.filter((_, i) => i !== index)
+      );
+    },
+    [onEffectsChange]
+  );
 
-  const updateEffect = (index: number, updatedEffect: SelectedEffect) => {
-    const newEffects = [...selectedEffects];
-    newEffects[index] = updatedEffect;
-    onEffectsChange(newEffects);
-  };
+  const updateEffect = useCallback(
+    (index: number, updatedEffect: SelectedEffect) => {
+      onEffectsChange((prevEffects) => {
+        const newEffects = [...prevEffects];
+        newEffects[index] = updatedEffect;
+        return newEffects;
+      });
+    },
+    [onEffectsChange]
+  );
 
   return (
-    <div className={`effect-list ${PixelMplus10Regular.className}`}>
-      {" "}
-      {/* フォントクラスを追加 */}
+    <div className="effectList">
       {selectedEffects.map((selectedEffect, index) => (
         <EffectSelector
           key={index}
@@ -98,7 +109,7 @@ export default function EffectList({
           removeEffect={() => removeEffect(index)}
         />
       ))}
-      <button onClick={addEffect} className="add-effect">
+      <button onClick={addEffect} className="addEffect">
         効果を追加
       </button>
     </div>

@@ -1,18 +1,7 @@
-// components\EffectSelector\EffectSelector.tsx
+// components/EffectSelector/EffectSelector.tsx
 import { useState, useEffect } from "react";
-import {
-  SkillType,
-  SelectedEffect,
-  EffectCategories,
-  EffectDetails,
-} from "@/components/types";
-
-interface EffectSelectorProps {
-  skillType: SkillType;
-  selectedEffect: SelectedEffect;
-  updateEffect: (effect: SelectedEffect) => void;
-  removeEffect: () => void;
-}
+import { EffectSelectorProps } from "@/components/types";
+import { EffectCategories } from "@/app/data/EffectCategories";
 
 export default function EffectSelector({
   skillType,
@@ -52,19 +41,37 @@ export default function EffectSelector({
     const effects =
       EffectCategories[skillType]?.[category]?.[subCategory] || [];
     const selectedEffectDetails = effects.find((eff) => eff.name === effect);
+
     if (selectedEffectDetails) {
-      updateEffect({
+      const newEffect = {
         category,
         subCategory,
         effect,
-        turns: selectedEffectDetails.hasTurns ? turns ?? 1 : undefined,
-      });
+        turns: selectedEffectDetails.hasTurns
+          ? turns === 21
+            ? "完全解除"
+            : turns
+          : undefined,
+      };
+
+      // 現在の効果と新しい効果を比較し、変更がある場合のみ更新
+      if (JSON.stringify(newEffect) !== JSON.stringify(selectedEffect)) {
+        updateEffect(newEffect);
+      }
     } else if (effects.length > 0) {
       const firstEffect = effects[0];
       setEffect(firstEffect.name);
       setTurns(firstEffect.hasTurns ? 1 : undefined);
     }
-  }, [category, subCategory, effect, turns, skillType, updateEffect]);
+  }, [
+    category,
+    subCategory,
+    effect,
+    turns,
+    skillType,
+    updateEffect,
+    selectedEffect,
+  ]);
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newCategory = e.target.value;
@@ -110,19 +117,27 @@ export default function EffectSelector({
 
   const handleTurnsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
-    setTurns(value);
+    setTurns(value === 21 ? "完全解除" : value);
   };
 
   return (
-    <div className="effect-selector">
-      <select value={category} onChange={handleCategoryChange}>
+    <div className="effectSelector">
+      <select
+        value={category}
+        onChange={handleCategoryChange}
+        className="effectSelectorBox"
+      >
         {Object.keys(EffectCategories[skillType]).map((cat) => (
           <option key={cat} value={cat}>
             {cat}
           </option>
         ))}
       </select>
-      <select value={subCategory} onChange={handleSubCategoryChange}>
+      <select
+        value={subCategory}
+        onChange={handleSubCategoryChange}
+        className="effectSelectorBox"
+      >
         {Object.keys(EffectCategories[skillType][category] || {}).map(
           (subCat) => (
             <option key={subCat} value={subCat}>
@@ -131,7 +146,11 @@ export default function EffectSelector({
           )
         )}
       </select>
-      <select value={effect} onChange={handleEffectChange}>
+      <select
+        value={effect}
+        onChange={handleEffectChange}
+        className="effectSelectorBox"
+      >
         {(EffectCategories[skillType][category]?.[subCategory] || []).map(
           (eff) => (
             <option key={eff.name} value={eff.name}>
@@ -141,18 +160,18 @@ export default function EffectSelector({
         )}
       </select>
       {turns !== undefined && (
-        <div className="turns-selector">
+        <div className="turnsSelector">
           <input
             type="range"
             min="1"
-            max="20"
-            value={turns}
+            max="21"
+            value={turns === "完全解除" ? 21 : turns}
             onChange={handleTurnsChange}
           />
-          <span>{turns}ターン</span>
+          <span>{turns === "完全解除" ? "完全解除" : `${turns}ターン`}</span>
         </div>
       )}
-      <button onClick={removeEffect} className="remove-effect">
+      <button onClick={removeEffect} className="removeEffect">
         削除
       </button>
     </div>
