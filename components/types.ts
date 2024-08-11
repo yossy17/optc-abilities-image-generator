@@ -4,19 +4,19 @@ export type SkillType = "Special" | "Captain";
 
 // SelectedEffect: 選択された効果の詳細を表す型
 export interface SelectedEffect {
-  category: string; // 効果のカテゴリ
-  subCategory: string; // 効果のサブカテゴリ
-  effect: string; // 効果の名前
-  turns?: number | "完全解除"; // 効果が続くターン数（オプション）
+  category: string;
+  subCategory: string;
+  effect: string;
+  turns?: number | "完全解除";
 }
 
-// SkillTypeSelector
+// SkillTypeSelector: スキルの種類を選択するためのコンポーネントのプロパティ型
 export interface SkillTypeSelectorProps {
   currentSkillType: SkillType;
   onSkillTypeChange: (skillType: SkillType) => void;
 }
 
-// EffectDetails
+// EffectListProps: 選択された効果のリストを表示・編集するためのコンポーネントのプロパティ型
 export interface EffectListProps {
   skillType: SkillType;
   selectedEffects: SelectedEffect[];
@@ -27,7 +27,7 @@ export interface EffectListProps {
   ) => void;
 }
 
-// EffectSelector
+// EffectSelectorProps: 特定の効果を選択・編集するためのコンポーネントのプロパティ型
 export interface EffectSelectorProps {
   skillType: SkillType;
   selectedEffect: SelectedEffect;
@@ -37,29 +37,30 @@ export interface EffectSelectorProps {
 
 // EffectDetails: 各効果の詳細を表す型
 export interface EffectDetails {
-  name: string; // 効果の名前
-  hasTurns: boolean; // 効果にターン数が存在するかどうか
-  imageUrl?: string; // 効果に関連する画像のURL（オプション）
+  name: string;
+  hasTurns: boolean;
+  imageUrl?: string;
 }
 
 // SubCategory: サブカテゴリに属する効果のリストを表す型
 export interface SubCategory {
-  [key: string]: EffectDetails[]; // サブカテゴリ名と対応する効果リストのマッピング
+  [key: string]: EffectDetails[];
 }
 
 // EffectCategory: カテゴリに属するサブカテゴリを表す型
 export interface EffectCategory {
-  [key: string]: SubCategory; // カテゴリ名と対応するサブカテゴリのマッピング
+  [key: string]: SubCategory;
 }
 
-// GenerateImageButton
+// GenerateImageButtonProps: 画像生成ボタンのコンポーネントのプロパティ型
 export interface GenerateImageButtonProps {
   skillType: SkillType;
   selectedEffects: SelectedEffect[];
 }
 
+// Effect: 効果の基本的な詳細を表す型
 export interface Effect {
   name: string;
   hasTurns: boolean;
-  imageUrl?: string; // 画像URLを追加
+  imageUrl?: string;
 }
