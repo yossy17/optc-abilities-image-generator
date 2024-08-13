@@ -103,7 +103,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: '';
+  content: "";
   content: none;
 }
 a {
@@ -161,12 +161,12 @@ textarea {
 textarea {
   resize: vertical;
 }
-input[type='checkbox'],
-input[type='radio'] {
+input[type="checkbox"],
+input[type="radio"] {
   display: none;
 }
-input[type='submit'],
-input[type='button'],
+input[type="submit"],
+input[type="button"],
 label,
 button,
 select {

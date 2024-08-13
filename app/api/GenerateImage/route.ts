@@ -1,3 +1,4 @@
+// app/api/GenerateImage/route.ts
 import { NextResponse } from "next/server";
 import { createCanvas, registerFont } from "canvas";
 import { SelectedEffect } from "@/components/types";
@@ -5,8 +6,8 @@ import path from "path";
 
 // フォントの登録
 registerFont(
-  path.join(process.cwd(), "public", "Fonts", "NotoSansJP-Regular.ttf"),
-  { family: "NotoSansJP-Regular" }
+  path.join(process.cwd(), "public", "Fonts", "NotoSansJP-Bold.ttf"),
+  { family: "NotoSansJP-Bold" }
 );
 
 export async function POST(request: Request) {
@@ -14,14 +15,14 @@ export async function POST(request: Request) {
     const { title, effects }: { title: string; effects: SelectedEffect[] } =
       await request.json();
 
-    const titleFontSize = 16;
-    const effectFontSize = 12;
-    const canvasPadding = 30;
-    const maxTitleWidth = 400;
+    const titleFontSize = 18; // タイトルのフォントサイズを少し大きく
+    const effectFontSize = 14; // 効果テキストのフォントサイズを調整
+    const canvasPadding = 30; // キャンバスの余白を少し広げる
+    const maxTitleWidth = 350;
 
     const tempCanvas = createCanvas(1, 1);
     const tempCtx = tempCanvas.getContext("2d");
-    tempCtx.font = `${titleFontSize}px 'NotoSansJP-Regular', sans-serif`;
+    tempCtx.font = `${titleFontSize}px 'NotoSansJP-Bold', sans-serif`;
 
     const lines = title.split("\n");
     let titleWidth = 0;
@@ -42,26 +43,26 @@ export async function POST(request: Request) {
     const ctx = canvas.getContext("2d");
 
     if (!ctx) {
-      throw new Error("Failed to get canvas context");
+      throw new Error("キャンバスコンテキストの取得に失敗しました");
     }
 
-    // 背景のグラデーション
+    // 改良した背景のグラデーション
     const gradient = ctx.createLinearGradient(0, 0, canvasWidth, canvasHeight);
-    gradient.addColorStop(0, "#e9e9e9");
-    gradient.addColorStop(1, "#ffffff");
+    gradient.addColorStop(0, "#e0ba7b");
+    gradient.addColorStop(1, "#c8985e");
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // 枠線を描画
-    ctx.strokeStyle = "#cccccc";
-    ctx.lineWidth = 4;
+    ctx.strokeStyle = "#9e6b20";
+    ctx.lineWidth = 3;
     ctx.strokeRect(10, 10, canvasWidth - 20, canvasHeight - 20);
 
     // タイトルの描画
-    ctx.font = `${titleFontSize}px 'NotoSansJP-Regular', sans-serif`;
+    ctx.font = `${titleFontSize}px 'NotoSansJP-Bold', sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
-    ctx.fillStyle = "#333333";
+    ctx.fillStyle = "#4a1a06"; // テキストカラーを少し明るく
 
     let titleY = canvasPadding;
     lines.forEach((line) => {
@@ -70,16 +71,15 @@ export async function POST(request: Request) {
     });
 
     // 効果の描画
-    ctx.font = `${effectFontSize}px 'NotoSansJP-Regular', sans-serif`;
+    ctx.font = `${effectFontSize}px 'NotoSansJP-Bold', sans-serif`;
     ctx.textAlign = "left";
     ctx.textBaseline = "top";
-    ctx.fillStyle = "#555555";
+    ctx.fillStyle = "#4a1a06"; // テキストカラーを少し明るく
 
     effects.forEach((item: SelectedEffect, index: number) => {
       let effectText = `${item.effect}`;
       if (item.turns !== undefined) {
-        effectText +=
-          item.turns === "完全解除" ? " (完全解除)" : ` (${item.turns}ターン)`;
+        effectText += item.turns === "∞" ? " (∞)" : ` (${item.turns}ターン)`;
       }
       ctx.fillText(
         effectText,
@@ -89,15 +89,15 @@ export async function POST(request: Request) {
     });
 
     const imageData = canvas.toDataURL("image/png");
-    console.log("Image generated successfully");
+    console.log("画像が正常に生成されました");
 
     return NextResponse.json({ imageData });
   } catch (error) {
-    console.error("Detailed error in GenerateImage:", error);
+    console.error("GenerateImageでのエラー詳細:", error);
     return NextResponse.json(
       {
         error:
-          "Error generating image: " +
+          "画像生成中のエラー: " +
           (error instanceof Error ? error.message : String(error)),
       },
       { status: 500 }

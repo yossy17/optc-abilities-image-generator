@@ -4,7 +4,6 @@ import { EffectSelectorProps } from "@/components/types";
 import { EffectCategories } from "@/app/data/EffectCategories";
 
 export default function EffectSelector({
-  skillType,
   selectedEffect,
   updateEffect,
   removeEffect,
@@ -15,31 +14,26 @@ export default function EffectSelector({
   const [turns, setTurns] = useState(selectedEffect.turns);
 
   useEffect(() => {
-    const categories = Object.keys(EffectCategories[skillType] || {});
+    const categories = Object.keys(EffectCategories);
     if (categories.length > 0 && !categories.includes(category)) {
       const newCategory = categories[0];
       setCategory(newCategory);
-      const subCategories = Object.keys(
-        EffectCategories[skillType][newCategory] || {}
-      );
+      const subCategories = Object.keys(EffectCategories[newCategory] || {});
       if (subCategories.length > 0) {
         setSubCategory(subCategories[0]);
       }
     }
-  }, [skillType, category]);
+  }, [category]);
 
   useEffect(() => {
-    const subCategories = Object.keys(
-      EffectCategories[skillType]?.[category] || {}
-    );
+    const subCategories = Object.keys(EffectCategories[category] || {});
     if (subCategories.length > 0 && !subCategories.includes(subCategory)) {
       setSubCategory(subCategories[0]);
     }
-  }, [skillType, category, subCategory]);
+  }, [category, subCategory]);
 
   useEffect(() => {
-    const effects =
-      EffectCategories[skillType]?.[category]?.[subCategory] || [];
+    const effects = EffectCategories[category]?.[subCategory] || [];
     const selectedEffectDetails = effects.find((eff) => eff.name === effect);
 
     if (selectedEffectDetails) {
@@ -49,12 +43,11 @@ export default function EffectSelector({
         effect,
         turns: selectedEffectDetails.hasTurns
           ? turns === 21
-            ? "完全解除"
+            ? "∞"
             : turns
           : undefined,
       };
 
-      // 現在の効果と新しい効果を比較し、変更がある場合のみ更新
       if (JSON.stringify(newEffect) !== JSON.stringify(selectedEffect)) {
         updateEffect(newEffect);
       }
@@ -63,27 +56,16 @@ export default function EffectSelector({
       setEffect(firstEffect.name);
       setTurns(firstEffect.hasTurns ? 1 : undefined);
     }
-  }, [
-    category,
-    subCategory,
-    effect,
-    turns,
-    skillType,
-    updateEffect,
-    selectedEffect,
-  ]);
+  }, [category, subCategory, effect, turns, updateEffect, selectedEffect]);
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newCategory = e.target.value;
     setCategory(newCategory);
-    const subCategories = Object.keys(
-      EffectCategories[skillType]?.[newCategory] || {}
-    );
+    const subCategories = Object.keys(EffectCategories[newCategory] || {});
     if (subCategories.length > 0) {
       const newSubCategory = subCategories[0];
       setSubCategory(newSubCategory);
-      const effects =
-        EffectCategories[skillType]?.[newCategory]?.[newSubCategory] || [];
+      const effects = EffectCategories[newCategory]?.[newSubCategory] || [];
       if (effects.length > 0) {
         const firstEffect = effects[0];
         setEffect(firstEffect.name);
@@ -95,8 +77,7 @@ export default function EffectSelector({
   const handleSubCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newSubCategory = e.target.value;
     setSubCategory(newSubCategory);
-    const effects =
-      EffectCategories[skillType][category]?.[newSubCategory] || [];
+    const effects = EffectCategories[category]?.[newSubCategory] || [];
     if (effects.length > 0) {
       const firstEffect = effects[0];
       setEffect(firstEffect.name);
@@ -106,7 +87,7 @@ export default function EffectSelector({
 
   const handleEffectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newEffect = e.target.value;
-    const selectedEffectDetails = EffectCategories[skillType][category]?.[
+    const selectedEffectDetails = EffectCategories[category]?.[
       subCategory
     ]?.find((eff) => eff.name === newEffect);
     setEffect(newEffect);
@@ -117,7 +98,7 @@ export default function EffectSelector({
 
   const handleTurnsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
-    setTurns(value === 21 ? "完全解除" : value);
+    setTurns(value === 21 ? "∞" : value);
   };
 
   return (
@@ -128,7 +109,7 @@ export default function EffectSelector({
           onChange={handleCategoryChange}
           className="effectSelector"
         >
-          {Object.keys(EffectCategories[skillType]).map((cat) => (
+          {Object.keys(EffectCategories).map((cat) => (
             <option key={cat} value={cat}>
               {cat}
             </option>
@@ -139,26 +120,22 @@ export default function EffectSelector({
           onChange={handleSubCategoryChange}
           className="effectSelector"
         >
-          {Object.keys(EffectCategories[skillType][category] || {}).map(
-            (subCat) => (
-              <option key={subCat} value={subCat}>
-                {subCat}
-              </option>
-            )
-          )}
+          {Object.keys(EffectCategories[category] || {}).map((subCat) => (
+            <option key={subCat} value={subCat}>
+              {subCat}
+            </option>
+          ))}
         </select>
         <select
           value={effect}
           onChange={handleEffectChange}
           className="effectSelector"
         >
-          {(EffectCategories[skillType][category]?.[subCategory] || []).map(
-            (eff) => (
-              <option key={eff.name} value={eff.name}>
-                {eff.name}
-              </option>
-            )
-          )}
+          {(EffectCategories[category]?.[subCategory] || []).map((eff) => (
+            <option key={eff.name} value={eff.name}>
+              {eff.name}
+            </option>
+          ))}
         </select>
       </div>
       <div className="effectBoxContainer">
@@ -168,10 +145,10 @@ export default function EffectSelector({
               type="range"
               min="1"
               max="21"
-              value={turns === "完全解除" ? 21 : turns}
+              value={turns === "∞" ? 21 : turns}
               onChange={handleTurnsChange}
             />
-            <span>{turns === "完全解除" ? "完全解除" : `${turns}ターン`}</span>
+            <span>{turns === "∞" ? "∞" : `${turns}ターン`}</span>
           </div>
         )}
         <button onClick={removeEffect} className="removeEffect">

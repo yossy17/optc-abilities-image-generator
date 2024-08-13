@@ -1,4 +1,4 @@
-// components\EffectList\EffectList.tsx
+// components/EffectList/EffectList.tsx
 import { useEffect, useCallback } from "react";
 import EffectSelector from "@/components/EffectSelector/EffectSelector";
 import {
@@ -9,22 +9,18 @@ import {
 import { EffectCategories } from "@/app/data/EffectCategories";
 
 export default function EffectList({
-  skillType,
   selectedEffects,
   onEffectsChange,
 }: EffectListProps) {
-  // 初期設定のロジックをuseCallbackに移動
   const initializeEffects = useCallback(() => {
-    const categories = Object.keys(EffectCategories[skillType]);
+    const categories = Object.keys(EffectCategories);
     if (categories.length > 0) {
       const firstCategory = categories[0];
-      const subCategories = Object.keys(
-        EffectCategories[skillType][firstCategory]
-      );
+      const subCategories = Object.keys(EffectCategories[firstCategory]);
       if (subCategories.length > 0) {
         const firstSubCategory = subCategories[0];
         const effects: EffectDetails[] =
-          EffectCategories[skillType][firstCategory][firstSubCategory];
+          EffectCategories[firstCategory][firstSubCategory];
         if (effects.length > 0) {
           const firstEffect = effects[0];
           return [
@@ -39,9 +35,8 @@ export default function EffectList({
       }
     }
     return [] as SelectedEffect[];
-  }, [skillType]);
+  }, []);
 
-  // useEffect内で初期化ロジックを使用
   useEffect(() => {
     if (selectedEffects.length === 0) {
       const initialEffects = initializeEffects();
@@ -52,18 +47,16 @@ export default function EffectList({
   }, [selectedEffects.length, initializeEffects, onEffectsChange]);
 
   const addEffect = useCallback(() => {
-    const categories = Object.keys(EffectCategories[skillType]);
+    const categories = Object.keys(EffectCategories);
     if (categories.length === 0) return;
 
     const firstCategory = categories[0];
-    const subCategories = Object.keys(
-      EffectCategories[skillType][firstCategory]
-    );
+    const subCategories = Object.keys(EffectCategories[firstCategory]);
     if (subCategories.length === 0) return;
 
     const firstSubCategory = subCategories[0];
     const effects: EffectDetails[] =
-      EffectCategories[skillType][firstCategory][firstSubCategory];
+      EffectCategories[firstCategory][firstSubCategory];
     if (effects.length === 0) return;
 
     const firstEffect = effects[0];
@@ -76,7 +69,7 @@ export default function EffectList({
         turns: firstEffect.hasTurns ? 1 : undefined,
       },
     ]);
-  }, [skillType, onEffectsChange]);
+  }, [onEffectsChange]);
 
   const removeEffect = useCallback(
     (index: number) => {
@@ -100,15 +93,13 @@ export default function EffectList({
 
   return (
     <>
-      {" "}
       <button onClick={addEffect} className="addEffect">
-        Add Effect
+        Add
       </button>
       <div className="effectList">
         {selectedEffects.map((selectedEffect, index) => (
           <EffectSelector
             key={index}
-            skillType={skillType}
             selectedEffect={selectedEffect}
             updateEffect={(updatedEffect) => updateEffect(index, updatedEffect)}
             removeEffect={() => removeEffect(index)}

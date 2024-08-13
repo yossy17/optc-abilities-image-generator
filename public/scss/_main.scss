@@ -3,51 +3,33 @@
 .container {
   margin: 0 auto;
   padding-block: 20px;
+
   .title {
     text-align: center;
     font-size: clamp(1rem, 0.636rem + 1.82vw, 2rem);
     padding: 0 30px 20px;
   }
 
-  .abilitiesImageGenerator {
-    .skillSelector {
-      display: flex;
-      justify-content: center;
+  .gimmickImageGenerator {
+    .addEffect {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      background-color: $green;
+      display: block;
+      margin: 10px auto 0;
+      transition: background-color 0.3s;
 
-      .skillSelectorButton {
-        padding: 10px 30px;
-        margin: 0 10px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-
-        &.active {
-          border: 3px solid $primary;
-        }
-
-        &:first-of-type {
-          background-color: $yellow;
-
-          @include hover {
-            background-color: $yellow-hover;
-          }
-        }
-
-        &:last-of-type {
-          background-color: $purple;
-
-          @include hover {
-            background-color: $purple-hover;
-          }
-        }
+      @include hover {
+        background-color: $green-hover;
       }
     }
 
     .effectList {
       margin-inline: 10px;
       display: grid;
-      gap: 2rem 0.5rem;
+      gap: 2rem 3rem;
       grid-template-columns: repeat(
         auto-fit,
         minmax(clamp(16.875rem, 14.83rem + 10.23vw, 22.5rem), 1fr)
@@ -62,6 +44,7 @@
         .effectSelectorBox {
           margin-right: 10px;
           width: clamp(8.438rem, 7.415rem + 5.11vw, 11.25rem);
+
           .effectSelector {
             width: 100%;
             border-radius: 3px;
@@ -118,21 +101,6 @@
       }
     }
 
-    .addEffect {
-      padding: 5px 10px;
-      border: none;
-      border-radius: 3px;
-      cursor: pointer;
-      background-color: $green;
-      display: block;
-      margin: 20px auto 0;
-      transition: background-color 0.3s;
-
-      @include hover {
-        background-color: $green-hover;
-      }
-    }
-
     .generateImage {
       display: flex;
       align-items: center;
@@ -142,15 +110,22 @@
 
       .titleInput {
         width: clamp(16.406rem, 14.418rem + 9.94vw, 21.875rem);
-        min-height: 54px;
         color: #404040;
-        background: $primary;
+        background: #f6f3e8;
         box-sizing: border-box;
-        text-align: center;
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 4px;
         margin-bottom: 20px;
+
+        .titleInputField {
+          width: 100%;
+          text-align: center;
+          border: none;
+          outline: none;
+          background: transparent;
+          resize: none;
+        }
       }
 
       .createImage {

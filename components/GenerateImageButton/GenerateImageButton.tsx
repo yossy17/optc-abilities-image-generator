@@ -1,4 +1,4 @@
-// GenerateImageButton.tsx
+// components/GenerateImageButton/GenerateImageButton.tsx
 import { useState } from "react";
 import { GenerateImageButtonProps } from "@/components/types";
 import Link from "next/link";
@@ -12,7 +12,7 @@ export default function GenerateImageButton({
 
   const generateImage = async () => {
     const finalTitle =
-      title.trim() === "" ? "OPTC Abilities Image Generator" : title;
+      title.trim() === "" ? "OPTC Gimmick Chart Generator" : title;
 
     if (selectedEffects.length === 0) {
       alert("効果を追加してください");
@@ -30,7 +30,6 @@ export default function GenerateImageButton({
 
       const data = await response.json();
 
-      // Base64データをBlobに変換
       const byteCharacters = atob(data.imageData.split(",")[1]);
       const byteNumbers = new Array(byteCharacters.length);
       for (let i = 0; i < byteCharacters.length; i++) {
@@ -39,7 +38,6 @@ export default function GenerateImageButton({
       const byteArray = new Uint8Array(byteNumbers);
       const blob = new Blob([byteArray], { type: "image/png" });
 
-      // BlobからURLを生成
       const url = URL.createObjectURL(blob);
       setImageUrl(url);
     } catch (error) {
@@ -57,7 +55,7 @@ export default function GenerateImageButton({
       {imageUrl && (
         <div className="resultLink">
           <Link href={imageUrl} target="_blank" rel="noopener noreferrer">
-            View image
+            View Image
           </Link>
         </div>
       )}

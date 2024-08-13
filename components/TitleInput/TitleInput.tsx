@@ -3,17 +3,20 @@ import React from "react";
 
 interface TitleInputProps {
   title: string;
-  onTitleChange: (title: string) => void;
+  onTitleChange: (newTitle: string) => void;
 }
 
-export default function TitleInput({ title, onTitleChange }: TitleInputProps) {
+const TitleInput: React.FC<TitleInputProps> = ({ title, onTitleChange }) => {
   return (
-    <textarea
-      value={title}
-      onChange={(e) => onTitleChange(e.target.value)}
-      placeholder="Title for Image"
-      className="titleInput"
-      rows={3} // 行数を設定。必要に応じて調整。
-    />
+    <div className="titleInput">
+      <textarea
+        value={title}
+        onChange={(e) => onTitleChange(e.target.value)}
+        placeholder="Title"
+        className="titleInputField"
+      />
+    </div>
   );
-}
+};
+
+export default TitleInput;

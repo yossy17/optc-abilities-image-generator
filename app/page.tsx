@@ -2,37 +2,22 @@
 "use client";
 
 import { useState } from "react";
-import SkillTypeSelector from "@/components/SkillTypeSelector/SkillTypeSelector";
 import EffectList from "@/components/EffectList/EffectList";
 import GenerateImageButton from "@/components/GenerateImageButton/GenerateImageButton";
-import { SkillType, SelectedEffect } from "@/components/types";
+import { SelectedEffect } from "@/components/types";
 
 export default function Home() {
-  const [skillType, setSkillType] = useState<SkillType>("Special");
   const [selectedEffects, setSelectedEffects] = useState<SelectedEffect[]>([]);
-
-  const handleSkillTypeChange = (newSkillType: SkillType) => {
-    setSkillType(newSkillType);
-    setSelectedEffects([]);
-  };
 
   return (
     <main className="container">
-      <h1 className="title">OPTC Abilities Image Generator</h1>
-      <div className="abilitiesImageGenerator">
-        <SkillTypeSelector
-          currentSkillType={skillType}
-          onSkillTypeChange={handleSkillTypeChange}
-        />
+      <h1 className="title">OPTC Gimmick Chart Generator</h1>
+      <div className="gimmickImageGenerator">
         <EffectList
-          skillType={skillType}
           selectedEffects={selectedEffects}
           onEffectsChange={setSelectedEffects}
         />
-        <GenerateImageButton
-          skillType={skillType}
-          selectedEffects={selectedEffects}
-        />
+        <GenerateImageButton selectedEffects={selectedEffects} />
       </div>
     </main>
   );

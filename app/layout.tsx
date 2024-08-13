@@ -4,8 +4,8 @@ import { PixelMplus10Regular } from "@/public/Fonts/Fonts";
 import "@/public/Styles/app.css";
 
 export const metadata: Metadata = {
-  title: "OPTC Abilities Image Generator",
-  description: "ゲームのスキル性能を画像として生成するアプリケーション",
+  title: "OPTC Gimmick Chart Generator",
+  description: "トレクルのギミック表を画像として生成するします。",
 };
 
 export default function RootLayout({
