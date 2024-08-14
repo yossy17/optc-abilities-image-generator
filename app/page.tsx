@@ -11,7 +11,7 @@ export default function Home() {
 
   return (
     <main className="container">
-      <h1 className="title">OPTC Gimmick Chart Generator</h1>
+      <h1 className="title">OPTC Gimmick List Generator</h1>
       <div className="gimmickImageGenerator">
         <EffectList
           selectedEffects={selectedEffects}

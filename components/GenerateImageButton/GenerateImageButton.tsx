@@ -12,7 +12,7 @@ export default function GenerateImageButton({
 
   const generateImage = async () => {
     const finalTitle =
-      title.trim() === "" ? "OPTC Gimmick Chart Generator" : title;
+      title.trim() === "" ? "OPTC Gimmick List Generator" : title;
 
     if (selectedEffects.length === 0) {
       alert("効果を追加してください");
