@@ -35,17 +35,13 @@ export default function EffectSelector({
   useEffect(() => {
     const effects = EffectCategories[category]?.[subCategory] || [];
     const selectedEffectDetails = effects.find((eff) => eff.name === effect);
-
     if (selectedEffectDetails) {
       const newEffect = {
         category,
         subCategory,
         effect,
-        turns: selectedEffectDetails.hasTurns
-          ? turns === 21
-            ? "∞"
-            : turns
-          : undefined,
+        turns: selectedEffectDetails.hasTurns ? turns : undefined,
+        imageUrl: selectedEffectDetails.imageUrl,
       };
 
       if (JSON.stringify(newEffect) !== JSON.stringify(selectedEffect)) {
@@ -98,9 +94,8 @@ export default function EffectSelector({
 
   const handleTurnsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
-    setTurns(value === 21 ? "∞" : value);
+    setTurns(value === 100 ? "99+" : value);
   };
-
   return (
     <div className="effectBox">
       <div className="effectSelectorBox">
@@ -144,11 +139,11 @@ export default function EffectSelector({
             <input
               type="range"
               min="1"
-              max="21"
-              value={turns === "∞" ? 21 : turns}
+              max="100"
+              value={turns === "99+" ? 100 : turns}
               onChange={handleTurnsChange}
             />
-            <span>{turns === "∞" ? "∞" : `${turns}ターン`}</span>
+            <span>{turns}T</span>
           </div>
         )}
         <button onClick={removeEffect} className="removeEffect">

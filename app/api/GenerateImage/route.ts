@@ -1,8 +1,9 @@
 // app/api/GenerateImage/route.ts
 import { NextResponse } from "next/server";
-import { createCanvas, registerFont } from "canvas";
+import { createCanvas, registerFont, loadImage } from "canvas";
 import { SelectedEffect } from "@/components/types";
 import path from "path";
+import fs from "fs/promises";
 
 // フォントの登録
 registerFont(
@@ -15,10 +16,19 @@ export async function POST(request: Request) {
     const { title, effects }: { title: string; effects: SelectedEffect[] } =
       await request.json();
 
-    const titleFontSize = 18; // タイトルのフォントサイズを少し大きく
-    const effectFontSize = 14; // 効果テキストのフォントサイズを調整
-    const canvasPadding = 30; // キャンバスの余白を少し広げる
+    console.log("Received title:", title);
+    console.log("Received effects:", effects);
+    console.log(
+      "Received effects with full details:",
+      JSON.stringify(effects, null, 2)
+    );
+
+    const titleFontSize = 18;
+    const effectFontSize = 14;
+    const canvasPadding = 30;
     const maxTitleWidth = 350;
+    const iconSize = 20;
+    const iconMargin = 5;
 
     const tempCanvas = createCanvas(1, 1);
     const tempCtx = tempCanvas.getContext("2d");
@@ -46,7 +56,7 @@ export async function POST(request: Request) {
       throw new Error("キャンバスコンテキストの取得に失敗しました");
     }
 
-    // 改良した背景のグラデーション
+    // 背景のグラデーション
     const gradient = ctx.createLinearGradient(0, 0, canvasWidth, canvasHeight);
     gradient.addColorStop(0, "#e0ba7b");
     gradient.addColorStop(1, "#c8985e");
@@ -62,7 +72,7 @@ export async function POST(request: Request) {
     ctx.font = `${titleFontSize}px 'NotoSansJP-Bold', sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
-    ctx.fillStyle = "#4a1a06"; // テキストカラーを少し明るく
+    ctx.fillStyle = "#4a1a06";
 
     let titleY = canvasPadding;
     lines.forEach((line) => {
@@ -73,20 +83,60 @@ export async function POST(request: Request) {
     // 効果の描画
     ctx.font = `${effectFontSize}px 'NotoSansJP-Bold', sans-serif`;
     ctx.textAlign = "left";
-    ctx.textBaseline = "top";
-    ctx.fillStyle = "#4a1a06"; // テキストカラーを少し明るく
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "#4a1a06";
 
-    effects.forEach((item: SelectedEffect, index: number) => {
+    for (let i = 0; i < effects.length; i++) {
+      const item = effects[i];
+      const y =
+        canvasPadding +
+        titleHeight +
+        20 +
+        (effectFontSize + iconMargin) * 1.5 * i;
+
+      if (item.imageUrl) {
+        try {
+          const imagePath = path.join(
+            process.cwd(),
+            "public",
+            "Images",
+            "Icon",
+            item.imageUrl
+          );
+          console.log("Attempting to load image from path:", imagePath);
+
+          const imageBuffer = await fs.readFile(imagePath);
+          const image = await loadImage(imageBuffer);
+
+          console.log("Image loaded successfully:", imagePath);
+
+          ctx.drawImage(
+            image,
+            canvasPadding + 10,
+            y - iconSize / 2,
+            iconSize,
+            iconSize
+          );
+        } catch (error) {
+          console.error(
+            `画像の読み込みに失敗しました: ${item.imageUrl}`,
+            error
+          );
+          if (error instanceof Error) {
+            console.error("Error message:", error.message);
+            console.error("Error stack:", error.stack);
+          }
+        }
+      } else {
+        console.log("No imageUrl for effect:", item.effect);
+      }
+
       let effectText = `${item.effect}`;
       if (item.turns !== undefined) {
-        effectText += item.turns === "∞" ? " (∞)" : ` (${item.turns}ターン)`;
+        effectText += ` (${item.turns}T)`;
       }
-      ctx.fillText(
-        effectText,
-        canvasPadding + 10,
-        canvasPadding + titleHeight + 20 + effectFontSize * 1.5 * index
-      );
-    });
+      ctx.fillText(effectText, canvasPadding + 10 + iconSize + iconMargin, y);
+    }
 
     const imageData = canvas.toDataURL("image/png");
     console.log("画像が正常に生成されました");

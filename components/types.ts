@@ -5,7 +5,8 @@ export interface SelectedEffect {
   category: string;
   subCategory: string;
   effect: string;
-  turns?: number | "∞";
+  turns?: number | "99+";
+  imageUrl?: string;
 }
 
 // 効果リストのプロパティ型

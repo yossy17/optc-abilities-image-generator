@@ -1,4 +1,4 @@
-// app\layout.tsx
+// app/layout.tsx
 import type { Metadata } from "next";
 import { PixelMplus10Regular } from "@/public/Fonts/Fonts";
 import "@/public/Styles/app.css";
