@@ -40,7 +40,7 @@ export default function EffectSelector({
         category,
         subCategory,
         effect,
-        turns: selectedEffectDetails.hasTurns ? turns : undefined,
+        turns: selectedEffectDetails.turns ? turns : undefined,
         imageUrl: selectedEffectDetails.imageUrl,
       };
 
@@ -50,7 +50,7 @@ export default function EffectSelector({
     } else if (effects.length > 0) {
       const firstEffect = effects[0];
       setEffect(firstEffect.name);
-      setTurns(firstEffect.hasTurns ? 1 : undefined);
+      setTurns(firstEffect.turns ? 1 : undefined);
     }
   }, [category, subCategory, effect, turns, updateEffect, selectedEffect]);
 
@@ -65,7 +65,7 @@ export default function EffectSelector({
       if (effects.length > 0) {
         const firstEffect = effects[0];
         setEffect(firstEffect.name);
-        setTurns(firstEffect.hasTurns ? 1 : undefined);
+        setTurns(firstEffect.turns ? 1 : undefined);
       }
     }
   };
@@ -77,7 +77,7 @@ export default function EffectSelector({
     if (effects.length > 0) {
       const firstEffect = effects[0];
       setEffect(firstEffect.name);
-      setTurns(firstEffect.hasTurns ? 1 : undefined);
+      setTurns(firstEffect.turns ? 1 : undefined);
     }
   };
 
@@ -88,7 +88,7 @@ export default function EffectSelector({
     ]?.find((eff) => eff.name === newEffect);
     setEffect(newEffect);
     if (selectedEffectDetails) {
-      setTurns(selectedEffectDetails.hasTurns ? 1 : undefined);
+      setTurns(selectedEffectDetails.turns ? 1 : undefined);
     }
   };
 

@@ -29,7 +29,7 @@ export interface EffectSelectorProps {
 // 効果の詳細を表す型
 export interface EffectDetails {
   name: string;
-  hasTurns: boolean;
+  turns: boolean;
   imageUrl?: string;
 }
 
@@ -51,6 +51,6 @@ export interface GenerateImageButtonProps {
 // 効果の基本的な詳細を表す型
 export interface Effect {
   name: string;
-  hasTurns: boolean;
+  turns: boolean;
   imageUrl?: string;
 }

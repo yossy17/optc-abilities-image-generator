@@ -28,7 +28,7 @@ export default function EffectList({
               category: firstCategory,
               subCategory: firstSubCategory,
               effect: firstEffect.name,
-              turns: firstEffect.hasTurns ? 1 : undefined,
+              turns: firstEffect.turns ? 1 : undefined,
             },
           ] as SelectedEffect[];
         }
@@ -66,7 +66,7 @@ export default function EffectList({
         category: firstCategory,
         subCategory: firstSubCategory,
         effect: firstEffect.name,
-        turns: firstEffect.hasTurns ? 1 : undefined,
+        turns: firstEffect.turns ? 1 : undefined,
       },
     ]);
   }, [onEffectsChange]);

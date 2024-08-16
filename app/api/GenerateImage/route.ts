@@ -133,7 +133,7 @@ export async function POST(request: Request) {
 
       let effectText = `${item.effect}`;
       if (item.turns !== undefined) {
-        effectText += ` (${item.turns}T)`;
+        effectText += `${item.turns}T`;
       }
       ctx.fillText(effectText, canvasPadding + 10 + iconSize + iconMargin, y);
     }
