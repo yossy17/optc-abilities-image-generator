@@ -10,15 +10,12 @@ export default function Home() {
   const [selectedEffects, setSelectedEffects] = useState<SelectedEffect[]>([]);
 
   return (
-    <main className="container">
-      <h1 className="title">OPTC Gimmick List Generator</h1>
-      <div className="gimmickImageGenerator">
-        <EffectList
-          selectedEffects={selectedEffects}
-          onEffectsChange={setSelectedEffects}
-        />
-        <GenerateImageButton selectedEffects={selectedEffects} />
-      </div>
+    <main className="main">
+      <EffectList
+        selectedEffects={selectedEffects}
+        onEffectsChange={setSelectedEffects}
+      />
+      <GenerateImageButton selectedEffects={selectedEffects} />
     </main>
   );
 }

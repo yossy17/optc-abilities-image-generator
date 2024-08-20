@@ -1,161 +1,161 @@
 @use "./var" as *;
 
-.container {
+#__next {
   margin: 0 auto;
   padding-block: 20px;
+}
 
-  .title {
-    text-align: center;
-    font-size: clamp(1.5rem, 1.318rem + 0.91vw, 2rem);
-    padding: 0 30px 20px;
+.title {
+  text-align: center;
+  font-size: clamp(1.5rem, 1.318rem + 0.91vw, 2rem);
+  padding: 0 30px 20px;
+}
+
+.main {
+  .addEffect {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    background-color: $green;
+    display: block;
+    margin: 10px auto 0;
+    transition: background-color 0.3s;
+
+    @include hover {
+      background-color: $green-hover;
+    }
   }
 
-  .gimmickImageGenerator {
-    .addEffect {
-      padding: 5px 10px;
+  .effectList {
+    margin-inline: 10px;
+    display: grid;
+    gap: 2rem 3rem;
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(clamp(16.875rem, 14.83rem + 10.23vw, 22.5rem), 1fr)
+    );
+    margin-block: 20px;
+
+    .effectBox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .effectSelectorBox {
+        margin-right: 10px;
+        width: clamp(8.438rem, 7.415rem + 5.11vw, 11.25rem);
+
+        .effectSelector {
+          color: $secondary;
+          background: $primary;
+          width: 100%;
+          border-radius: 3px;
+          margin: 5px 0;
+          padding: 5px;
+        }
+      }
+
+      .effectBoxContainer {
+        display: inline-block;
+        text-align: center;
+        margin-left: 10px;
+
+        .turnsSelector {
+          display: flex;
+          flex-flow: column;
+          align-items: center;
+          margin-bottom: 10px;
+
+          input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+            outline: none;
+            height: 8px;
+            background: $blue;
+            border-radius: 10px;
+          }
+          // つまみ
+          input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            background: $blue-hover;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+          }
+        }
+
+        .removeEffect {
+          padding: 5px 10px;
+          border: none;
+          border-radius: 3px;
+          cursor: pointer;
+          background-color: $red;
+          transition: background-color 0.3s;
+
+          @include hover {
+            background-color: $red-hover;
+          }
+        }
+      }
+    }
+  }
+
+  .generateImage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 20px;
+
+    .titleInput {
+      width: clamp(16.406rem, 14.418rem + 9.94vw, 21.875rem);
+      color: $secondary;
+      background: $primary;
+      box-sizing: border-box;
+      padding: 10px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+
+      .titleInputField {
+        width: 100%;
+        text-align: center;
+        border: none;
+        outline: none;
+        background: transparent;
+        resize: none;
+      }
+    }
+
+    .createImage {
+      background-color: $blue;
       border: none;
-      border-radius: 3px;
+      border-radius: 5px;
+      padding: 10px 20px;
       cursor: pointer;
-      background-color: $green;
-      display: block;
-      margin: 10px auto 0;
       transition: background-color 0.3s;
 
       @include hover {
-        background-color: $green-hover;
+        background-color: $blue-hover;
+      }
+
+      &:focus {
+        outline: none;
       }
     }
 
-    .effectList {
-      margin-inline: 10px;
-      display: grid;
-      gap: 2rem 3rem;
-      grid-template-columns: repeat(
-        auto-fit,
-        minmax(clamp(16.875rem, 14.83rem + 10.23vw, 22.5rem), 1fr)
-      );
-      margin-block: 20px;
-
-      .effectBox {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        .effectSelectorBox {
-          margin-right: 10px;
-          width: clamp(8.438rem, 7.415rem + 5.11vw, 11.25rem);
-
-          .effectSelector {
-            color: $secondary;
-            background: $primary;
-            width: 100%;
-            border-radius: 3px;
-            margin: 5px 0;
-            padding: 5px;
-          }
-        }
-
-        .effectBoxContainer {
-          display: inline-block;
-          text-align: center;
-          margin-left: 10px;
-
-          .turnsSelector {
-            display: flex;
-            flex-flow: column;
-            align-items: center;
-            margin-bottom: 10px;
-
-            input[type="range"] {
-              -webkit-appearance: none;
-              appearance: none;
-              cursor: pointer;
-              outline: none;
-              height: 8px;
-              background: $blue;
-              border-radius: 10px;
-            }
-            // つまみ
-            input[type="range"]::-webkit-slider-thumb {
-              -webkit-appearance: none;
-              background: $blue-hover;
-              width: 14px;
-              height: 14px;
-              border-radius: 50%;
-            }
-          }
-
-          .removeEffect {
-            padding: 5px 10px;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            background-color: $red;
-            transition: background-color 0.3s;
-
-            @include hover {
-              background-color: $red-hover;
-            }
-          }
-        }
-      }
-    }
-
-    .generateImage {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
+    .resultLink {
       margin-top: 20px;
 
-      .titleInput {
-        width: clamp(16.406rem, 14.418rem + 9.94vw, 21.875rem);
-        color: $secondary;
-        background: $primary;
-        box-sizing: border-box;
-        padding: 10px;
-        border-radius: 4px;
-        margin-bottom: 20px;
-
-        .titleInputField {
-          width: 100%;
-          text-align: center;
-          border: none;
-          outline: none;
-          background: transparent;
-          resize: none;
-        }
-      }
-
-      .createImage {
-        background-color: $blue;
-        border: none;
-        border-radius: 5px;
-        padding: 10px 20px;
-        cursor: pointer;
-        transition: background-color 0.3s;
+      a {
+        color: $blue;
+        text-decoration: none;
+        transition: color 0.3s;
 
         @include hover {
-          background-color: $blue-hover;
-        }
-
-        &:focus {
-          outline: none;
-        }
-      }
-
-      .resultLink {
-        margin-top: 20px;
-
-        a {
-          color: $blue;
-          text-decoration: none;
-          transition: color 0.3s;
-
-          @include hover {
-            color: $yellow;
-            text-decoration: underline;
-          }
+          color: $yellow;
+          text-decoration: underline;
         }
       }
     }

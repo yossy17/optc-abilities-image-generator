@@ -15,7 +15,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <body className={`${PixelMplus10Regular.className}`}>{children}</body>
+      <body className={`${PixelMplus10Regular.className}`}>
+        <div id="__next">
+          <h1 className="title">OPTC Gimmick List Generator</h1>
+          {children}
+        </div>
+      </body>
     </html>
   );
 }

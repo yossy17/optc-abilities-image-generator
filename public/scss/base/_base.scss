@@ -1,17 +1,6 @@
 @use "./reset";
 @use "../var" as *;
 
-html,
-body {
-  // overflow: hidden;
-}
-
-// a {
-//   color: #000;
-//   -webkit-tap-highlight-color: transparent;
-//   cursor: pointer;
-// }
-
 * {
   font-size: clamp(0.75rem, 0.659rem + 0.45vw, 1rem);
 }
@@ -25,8 +14,4 @@ body {
   &::-webkit-scrollbar {
     display: none;
   }
-}
-
-a {
-  text-decoration-line: none !important;
 }
