@@ -1,0 +1,124 @@
+{
+  "todo": [
+    {
+      "assignedTo": {
+        "name": "Yos_sy"
+      },
+      "category": "Bug 👾",
+      "creation_time": "2024-08-20T16:03:25.643Z",
+      "id": "1",
+      "prio": 0,
+      "references": [],
+      "title": "リストを削除したとき、最後の要素が消える",
+      "type": "bug"
+    },
+    {
+      "assignedTo": {
+        "name": "Yos_sy"
+      },
+      "category": "Improvement 🛠️",
+      "creation_time": "2024-08-20T16:06:19.839Z",
+      "id": "2",
+      "references": [],
+      "title": "コンポーネントの構造化（\"use client\" を機能ごとに分ける）"
+    },
+    {
+      "assignedTo": {
+        "name": "Yos_sy"
+      },
+      "category": "Add Functions ➕",
+      "creation_time": "2024-08-20T16:08:11.088Z",
+      "id": "8",
+      "references": [],
+      "title": "リスト要素の移動機能"
+    },
+    {
+      "assignedTo": {
+        "name": "Yos_sy"
+      },
+      "category": "Add Functions ➕",
+      "creation_time": "2024-08-20T16:08:08.140Z",
+      "id": "7",
+      "references": [],
+      "title": "初期行動や撃破時行動選択の追加"
+    },
+    {
+      "assignedTo": {
+        "name": "Yos_sy"
+      },
+      "category": "Add Functions ➕",
+      "creation_time": "2024-08-20T16:07:49.799Z",
+      "id": "3",
+      "references": [],
+      "title": "画像の追加"
+    },
+    {
+      "assignedTo": {
+        "name": "Yos_sy"
+      },
+      "category": "Add Functions ➕",
+      "creation_time": "2024-08-20T16:08:13.992Z",
+      "id": "9",
+      "references": [],
+      "title": "移動合わせて画像生成される文字の位置も変更"
+    },
+    {
+      "assignedTo": {
+        "name": "Yos_sy"
+      },
+      "category": "Add Functions ➕",
+      "creation_time": "2024-08-20T16:07:58.648Z",
+      "id": "5",
+      "references": [],
+      "title": "選択対象の追加（心限定バフや知スロットバリアなど）"
+    },
+    {
+      "assignedTo": {
+        "name": "Yos_sy"
+      },
+      "category": "Add Functions ➕",
+      "creation_time": "2024-08-20T16:07:54.294Z",
+      "id": "4",
+      "references": [],
+      "title": "選択要素の追加"
+    },
+    {
+      "assignedTo": {
+        "name": "Yos_sy"
+      },
+      "category": "Add Functions ➕",
+      "creation_time": "2024-08-20T16:08:01.927Z",
+      "id": "6",
+      "references": [],
+      "title": "階層選択の追加"
+    }
+  ],
+  "in-progress": [
+    {
+      "assignedTo": {
+        "name": "Yos_sy"
+      },
+      "category": "In Progress 📈",
+      "creation_time": "2024-08-20T16:08:32.011Z",
+      "id": "11",
+      "references": [],
+      "title": "HTML構造の改善"
+    },
+    {
+      "assignedTo": {
+        "name": "Yos_sy"
+      },
+      "category": "In Progress 📈",
+      "creation_time": "2024-08-20T16:08:27.908Z",
+      "details": {
+        "content": "classDiagram\nClass01 <|-- AveryLongClass : Cool\nClass03 *-- Class04\nClass05 o-- Class06\nClass07 .. Class08\nClass09 --> C2 : Where am i?\nClass09 --* C3\nClass09 --|> Class07\nClass07 : equals()\nClass07 : Object[] elementData\nClass01 : size()\nClass01 : int chimp\nClass01 : int gorilla\nClass08 <--> C2: Cool label",
+        "mime": "text/markdown"
+      },
+      "id": "10",
+      "references": [],
+      "title": "スタイルの改善"
+    }
+  ],
+  "testing": [],
+  "done": []
+}

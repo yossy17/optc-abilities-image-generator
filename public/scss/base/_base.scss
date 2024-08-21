@@ -15,3 +15,24 @@ body {
     display: none;
   }
 }
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #1d1320 #8c5454;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 16px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #8c5454;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #1d1320;
+  border-radius: 0px;
+  border: 3px solid #5da8f9;
+}

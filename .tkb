@@ -1,0 +1,34 @@
+{
+  "scope": "Workspace",
+  "tasks": {
+    "task--uYkuyob3h0J1dOYbCJ3I": {
+      "id": "task--uYkuyob3h0J1dOYbCJ3I",
+      "description": "Create new tasks\n\nTask can also contain lists\n\n- list item 1\n\n- list item 2",
+      "columnId": "column-todo"
+    }
+  },
+  "columns": [
+    {
+      "id": "column-todo",
+      "title": "To do",
+      "tasksIds": [
+        "task--uYkuyob3h0J1dOYbCJ3I"
+      ]
+    },
+    {
+      "id": "column-doing",
+      "title": "Doing",
+      "tasksIds": []
+    },
+    {
+      "id": "column-done",
+      "title": "Done",
+      "tasksIds": []
+    },
+    {
+      "id": "column-nH7Juza5ZM6HVXOg7FOvp",
+      "title": "",
+      "tasksIds": []
+    }
+  ]
+}

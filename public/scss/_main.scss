@@ -1,18 +1,20 @@
 @use "./var" as *;
 
 #__next {
-  margin: 0 auto;
-  padding-block: 20px;
+  padding-top: 60px;
 }
 
 .title {
   text-align: center;
   font-size: clamp(1.5rem, 1.318rem + 0.91vw, 2rem);
-  padding: 0 30px 20px;
+  margin: 0 20px;
 }
 
 .main {
+  margin-top: 20px;
   .addEffect {
+    position: sticky;
+    top: 20px;
     padding: 5px 10px;
     border: none;
     border-radius: 3px;
@@ -36,7 +38,6 @@
       minmax(clamp(16.875rem, 14.83rem + 10.23vw, 22.5rem), 1fr)
     );
     margin-block: 20px;
-
     .effectBox {
       display: flex;
       justify-content: center;
@@ -107,7 +108,8 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    margin-top: 20px;
+    position: sticky;
+    bottom: 20px;
 
     .titleInput {
       width: clamp(16.406rem, 14.418rem + 9.94vw, 21.875rem);

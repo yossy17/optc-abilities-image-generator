@@ -1,4 +1,3 @@
-// app/api/GenerateImage/route.ts
 import { NextResponse } from "next/server";
 import { createCanvas, registerFont, loadImage } from "canvas";
 import { SelectedEffect } from "@/components/types";
@@ -16,20 +15,37 @@ export async function POST(request: Request) {
     const { title, effects }: { title: string; effects: SelectedEffect[] } =
       await request.json();
 
-    console.log("Received title:", title);
-    console.log("Received effects:", effects);
-    console.log(
-      "Received effects with full details:",
-      JSON.stringify(effects, null, 2)
-    );
+    const settings = {
+      titleFontSize: 16,
+      effectFontSize: 12,
+      canvasPadding: 30,
+      maxTitleWidth: 300,
+      iconSize: 16,
+      iconMargin: 3,
+      borderWidth: 2,
+      gradientStart: "#e0ba7b",
+      gradientEnd: "#c8985e",
+      borderColor: "#9e6b20",
+      textColor: "#4a1a06",
+      bottomMargin: 30, // 下部の余白は維持
+    };
 
-    const titleFontSize = 18;
-    const effectFontSize = 14;
-    const canvasPadding = 30;
-    const maxTitleWidth = 350;
-    const iconSize = 20;
-    const iconMargin = 5;
+    const {
+      titleFontSize,
+      effectFontSize,
+      canvasPadding,
+      maxTitleWidth,
+      iconSize,
+      iconMargin,
+      borderWidth,
+      gradientStart,
+      gradientEnd,
+      borderColor,
+      textColor,
+      bottomMargin,
+    } = settings;
 
+    // タイトルのサイズ計算
     const tempCanvas = createCanvas(1, 1);
     const tempCtx = tempCanvas.getContext("2d");
     tempCtx.font = `${titleFontSize}px 'NotoSansJP-Bold', sans-serif`;
@@ -41,13 +57,12 @@ export async function POST(request: Request) {
     lines.forEach((line) => {
       const lineWidth = tempCtx.measureText(line).width;
       titleWidth = Math.max(titleWidth, lineWidth);
-      titleHeight += titleFontSize * 1.5;
+      titleHeight += titleFontSize * 1.2; // 行間
     });
 
+    const textHeight = effectFontSize * 1.5 * effects.length + titleHeight;
     const canvasWidth = Math.max(titleWidth + canvasPadding * 2, maxTitleWidth);
-    const textHeight =
-      effectFontSize * 1.5 * (effects.length + 1) + titleHeight;
-    const canvasHeight = canvasPadding * 2 + textHeight;
+    const canvasHeight = canvasPadding + textHeight + bottomMargin;
 
     const canvas = createCanvas(canvasWidth, canvasHeight);
     const ctx = canvas.getContext("2d");
@@ -58,41 +73,37 @@ export async function POST(request: Request) {
 
     // 背景のグラデーション
     const gradient = ctx.createLinearGradient(0, 0, canvasWidth, canvasHeight);
-    gradient.addColorStop(0, "#e0ba7b");
-    gradient.addColorStop(1, "#c8985e");
+    gradient.addColorStop(0, gradientStart);
+    gradient.addColorStop(1, gradientEnd);
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // 枠線を描画
-    ctx.strokeStyle = "#9e6b20";
-    ctx.lineWidth = 3;
-    ctx.strokeRect(10, 10, canvasWidth - 20, canvasHeight - 20);
+    ctx.strokeStyle = borderColor;
+    ctx.lineWidth = borderWidth;
+    ctx.strokeRect(5, 5, canvasWidth - 10, canvasHeight - 10);
 
     // タイトルの描画
     ctx.font = `${titleFontSize}px 'NotoSansJP-Bold', sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
-    ctx.fillStyle = "#4a1a06";
+    ctx.fillStyle = textColor;
 
     let titleY = canvasPadding;
     lines.forEach((line) => {
       ctx.fillText(line, canvasWidth / 2, titleY);
-      titleY += titleFontSize * 1.5;
+      titleY += titleFontSize * 1.2;
     });
 
     // 効果の描画
     ctx.font = `${effectFontSize}px 'NotoSansJP-Bold', sans-serif`;
     ctx.textAlign = "left";
     ctx.textBaseline = "middle";
-    ctx.fillStyle = "#4a1a06";
+    ctx.fillStyle = textColor;
 
     for (let i = 0; i < effects.length; i++) {
       const item = effects[i];
-      const y =
-        canvasPadding +
-        titleHeight +
-        20 +
-        (effectFontSize + iconMargin) * 1.5 * i;
+      const y = titleY + 10 + (iconSize + iconMargin) * i;
 
       if (item.imageUrl) {
         try {
@@ -103,16 +114,12 @@ export async function POST(request: Request) {
             "Icon",
             item.imageUrl
           );
-          console.log("Attempting to load image from path:", imagePath);
-
           const imageBuffer = await fs.readFile(imagePath);
           const image = await loadImage(imageBuffer);
 
-          console.log("Image loaded successfully:", imagePath);
-
           ctx.drawImage(
             image,
-            canvasPadding + 10,
+            canvasPadding + 5,
             y - iconSize / 2,
             iconSize,
             iconSize
@@ -122,25 +129,17 @@ export async function POST(request: Request) {
             `画像の読み込みに失敗しました: ${item.imageUrl}`,
             error
           );
-          if (error instanceof Error) {
-            console.error("Error message:", error.message);
-            console.error("Error stack:", error.stack);
-          }
         }
-      } else {
-        console.log("No imageUrl for effect:", item.effect);
       }
 
       let effectText = `${item.effect}`;
       if (item.turns !== undefined) {
-        effectText += `${item.turns}T`;
+        effectText += ` ${item.turns}T`;
       }
-      ctx.fillText(effectText, canvasPadding + 10 + iconSize + iconMargin, y);
+      ctx.fillText(effectText, canvasPadding + 5 + iconSize + iconMargin, y);
     }
 
     const imageData = canvas.toDataURL("image/png");
-    console.log("画像が正常に生成されました");
-
     return NextResponse.json({ imageData });
   } catch (error) {
     console.error("GenerateImageでのエラー詳細:", error);
